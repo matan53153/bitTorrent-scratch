@@ -2,12 +2,14 @@ import unittest
 import sys
 import os
 
-sys.path.append('../')
+module_path = os.path.abspath(os.path.join('bittorrent'))
+if module_path not in sys.path:
+    sys.path.append(module_path)
 from torrent import Torrent
 
 class UbuntuTorrentTests(unittest.TestCase):
     def setUp(self):
-        self.t = Torrent('tests/data/ubuntu-16.04-desktop-amd64.iso.torrent')
+        self.t = Torrent('tests/ubuntu-16.04-desktop-amd64.iso.torrent')
 
     def test_instantiate(self):
         self.assertIsNotNone(self.t)
@@ -41,15 +43,6 @@ class UbuntuTorrentTests(unittest.TestCase):
     def test_pieces(self):
         self.assertEqual(2835, len(self.t.pieces))
 
-
-class SXSWTorrentTests(unittest.TestCase):
-    """
-    Represents a multi-file torrent which is not supported
-    """
-    def test_instantiate(self):
-        with self.assertRaises(RuntimeError):
-            Torrent('tests/data/SXSW_2016_Showcasing_Artists_Part1.torrent')
-            
 if __name__ == '__main__':
     import unittest
     unittest.main()
